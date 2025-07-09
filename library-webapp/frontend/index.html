@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library Management System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            padding: 32px 40px 40px 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%);
+            padding: 24px 0 18px 0;
+            margin: -32px -40px 32px -40px;
+            border-radius: 18px 18px 0 0;
+            letter-spacing: 2px;
+            font-size: 2.5rem;
+            box-shadow: 0 4px 16px 0 rgba(221,36,118,0.10);
+        }
+        h2 {
+            color: #dd2476;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+        .card {
+            background: #f9f6ff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px 0 rgba(221,36,118,0.07);
+            padding: 18px 24px 24px 24px;
+            margin-bottom: 28px;
+        }
+        label {
+            font-weight: 500;
+            color: #333;
+        }
+        input {
+            padding: 8px 12px;
+            border: 1px solid #ffb88c;
+            border-radius: 6px;
+            margin: 0 8px 8px 0;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+        input:focus {
+            border: 1.5px solid #dd2476;
+        }
+        button {
+            background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 8px 8px 0;
+            box-shadow: 0 2px 8px 0 rgba(221,36,118,0.10);
+            transition: background 0.2s, transform 0.1s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #dd2476 0%, #ff512f 100%);
+            transform: translateY(-2px) scale(1.04);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 12px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px 0 rgba(221,36,118,0.07);
+        }
+        th, td {
+            border: none;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background: #ffb88c;
+            color: #fff;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background: #f9f6ff;
+        }
+        tr:hover {
+            background: #ffe0d2;
+        }
+        .delete-btn {
+            background: #ff512f;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 12px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .delete-btn:hover {
+            background: #dd2476;
+        }
+        #message {
+            color: #fff;
+            background: #dd2476;
+            border-radius: 6px;
+            padding: 10px 18px;
+            margin-top: 18px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 2px 8px 0 rgba(221,36,118,0.10);
+            display: inline-block;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 12px 4vw; }
+            h1 { font-size: 1.5rem; padding: 16px 0; }
+            .card { padding: 10px 4vw; }
+            th, td { padding: 7px 4px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Library Management System</h1>
+
+        <div class="card">
+            <h2>Add Book</h2>
+            <label for="bookId">Book ID</label>
+            <input id="bookId" placeholder="Book ID">
+            <label for="bookTitle">Title</label>
+            <input id="bookTitle" placeholder="Title">
+            <label for="bookAuthor">Author</label>
+            <input id="bookAuthor" placeholder="Author">
+            <button onclick="addBook()">Add Book</button>
+        </div>
+
+        <div class="card">
+            <h2>Books</h2>
+            <table id="booksTable">
+                <thead>
+                    <tr><th>ID</th><th>Title</th><th>Author</th><th>Borrowed</th><th>Delete</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Add User</h2>
+            <label for="userId">User ID</label>
+            <input id="userId" placeholder="User ID">
+            <label for="userName">Name</label>
+            <input id="userName" placeholder="Name">
+            <button onclick="addUser()">Add User</button>
+        </div>
+
+        <div class="card">
+            <h2>Users</h2>
+            <table id="usersTable">
+                <thead>
+                    <tr><th>ID</th><th>Name</th><th>Borrowed Books</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Borrow/Return Book</h2>
+            <label for="borrowUserId">User ID</label>
+            <input id="borrowUserId" placeholder="User ID">
+            <label for="borrowBookId">Book ID</label>
+            <input id="borrowBookId" placeholder="Book ID">
+            <button onclick="borrowBook()">Borrow</button>
+            <button onclick="returnBook()">Return</button>
+        </div>
+
+        <div id="message"></div>
+    </div>
+    <script>
+        const API = 'http://localhost:8080/api';
+
+        function showMessage(msg, error = false) {
+            const el = document.getElementById('message');
+            el.style.background = error ? '#ff512f' : '#dd2476';
+            el.textContent = msg;
+            el.style.display = 'inline-block';
+            setTimeout(() => { el.textContent = ''; el.style.display = 'none'; }, 3000);
+        }
+
+        function addBook() {
+            fetch(`${API}/books`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: document.getElementById('bookId').value,
+                    title: document.getElementById('bookTitle').value,
+                    author: document.getElementById('bookAuthor').value,
+                })
+            })
+            .then(r => r.ok ? showMessage('Book added!') : showMessage('Failed to add book', true))
+            .then(loadBooks);
+        }
+
+        function addUser() {
+            fetch(`${API}/users`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: document.getElementById('userId').value,
+                    name: document.getElementById('userName').value,
+                })
+            })
+            .then(r => r.ok ? showMessage('User added!') : showMessage('Failed to add user', true))
+            .then(loadUsers);
+        }
+
+        function loadBooks() {
+            fetch(`${API}/books`)
+                .then(r => r.json())
+                .then(books => {
+                    const tbody = document.getElementById('booksTable').querySelector('tbody');
+                    tbody.innerHTML = '';
+                    books.forEach(book => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `<td>${book.id}</td><td>${book.title}</td><td>${book.author}</td><td>${book.borrowed ? 'Yes' : 'No'}</td><td><button class="delete-btn" onclick="deleteBook('${book.id}')">Delete</button></td>`;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+
+        function loadUsers() {
+            fetch(`${API}/users`)
+                .then(r => r.json())
+                .then(users => {
+                    const tbody = document.getElementById('usersTable').querySelector('tbody');
+                    tbody.innerHTML = '';
+                    users.forEach(user => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `<td>${user.id}</td><td>${user.name}</td><td>${(user.borrowedBookIds || []).join(', ')}</td>`;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+
+        function deleteBook(id) {
+            fetch(`${API}/books/${id}`, { method: 'DELETE' })
+                .then(() => { showMessage('Book deleted!'); loadBooks(); });
+        }
+
+        function borrowBook() {
+            const userId = document.getElementById('borrowUserId').value;
+            const bookId = document.getElementById('borrowBookId').value;
+            fetch(`${API}/users/${userId}/borrow/${bookId}`, { method: 'POST' })
+                .then(r => r.json())
+                .then(success => {
+                    if (success) showMessage('Book borrowed!');
+                    else showMessage('Failed to borrow book', true);
+                    loadBooks();
+                    loadUsers();
+                });
+        }
+
+        function returnBook() {
+            const userId = document.getElementById('borrowUserId').value;
+            const bookId = document.getElementById('borrowBookId').value;
+            fetch(`${API}/users/${userId}/return/${bookId}`, { method: 'POST' })
+                .then(r => r.json())
+                .then(success => {
+                    if (success) showMessage('Book returned!');
+                    else showMessage('Failed to return book', true);
+                    loadBooks();
+                    loadUsers();
+                });
+        }
+
+        // Initial load
+        loadBooks();
+        loadUsers();
+    </script>
+</body>
+</html>
